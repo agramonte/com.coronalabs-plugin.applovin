@@ -1,0 +1,16 @@
+settings =
+{
+	orientation =
+	{
+		default = "portrait",
+		supported = { "portrait", "landscapeLeft", "landscapeRight" },
+	},
+	iphone =
+	{
+		xcassets = "Images.xcassets",
+		plist =
+		{
+			UILaunchStoryboardName = "LaunchScreen",
+		},
+	},
+}
