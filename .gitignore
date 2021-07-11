@@ -1,3 +1,6 @@
 plugins/*.tgz
 .gradle/
 *xcuser*
+src/ios/BuiltPlugin/
+build/
+src/ios/libplugin_applovin.a
