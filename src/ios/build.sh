@@ -114,7 +114,12 @@ build_plugin_structure "$OUTPUT_DIR/BuiltPlugin/iphone" iphoneos  " -extract arm
 
 build_plugin_structure "$OUTPUT_DIR/BuiltPlugin/iphone-sim" iphonesimulator  " -extract  x86_64 "
 
-
-
+(
+	cd "$path"
+	mkdir BuiltPlugin/iphone/resources/
+	cp -r EmbeddedFrameworks/AppLovinSDKResources.bundle BuiltPlugin/iphone/resources/
+	mkdir BuiltPlugin/iphone-sim/resources/
+	cp -r EmbeddedFrameworks/AppLovinSDKResources.bundle BuiltPlugin/iphone-sim/resources/
+)
 
 echo "$OUTPUT_DIR"/lib$TARGET_NAME.$OUTPUT_SUFFIX

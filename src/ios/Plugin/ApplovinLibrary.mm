@@ -21,6 +21,7 @@
 #import <ApplovinSDK/ALInterstitialAd.h>
 #import <ApplovinSDK/ALIncentivizedInterstitialAd.h>
 #import <AppLovinSDK/ALPrivacySettings.h>
+#import <AppTrackingTransparency/ATTrackingManager.h>
 
 // some macros to make life easier, and code more readable
 #define UTF8StringWithFormat(format, ...) [[NSString stringWithFormat:format, ##__VA_ARGS__] UTF8String]
@@ -331,6 +332,23 @@ ApplovinLibrary::ToLibrary(lua_State *L)
   return library;
 }
 
+static void initApplovin(ALSdkSettings *settings, const char *userSdkKey) {
+	ALSdk *userSDK = [ALSdk sharedWithKey:@(userSdkKey) settings:settings];
+	
+	// save objects for future use
+	applovinObjects[USER_SDK_KEY] = userSDK;
+	
+	// log the plugin version to device console
+	NSLog(@"%s: %s (SDK: %@)", PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_SDK_VERSION);
+	
+	[userSDK initializeSdkWithCompletionHandler:^(ALSdkConfiguration * _Nonnull configuration) {
+		NSDictionary *coronaEvent = @{
+			@(CoronaEventPhaseKey()) : PHASE_INIT
+		};
+		[applovinInterstitialDelegate dispatchLuaEvent:coronaEvent];
+	}];
+}
+
 // [Lua] applovin.init(listener, options)
 int
 ApplovinLibrary::init(lua_State *L)
@@ -358,6 +376,7 @@ ApplovinLibrary::init(lua_State *L)
     return 0;
   }
   
+  NSString* privacyPolicy = nil;
   const char *userSdkKey = NULL;
   bool verboseLogging = false;
 //  bool testMode = false;
@@ -390,6 +409,15 @@ ApplovinLibrary::init(lua_State *L)
         }
         else {
           logMsg(L, ERROR_MSG, MsgFormat(@"options.sdkKey (string) expected, got: %s", luaL_typename(L, -1)));
+          return 0;
+        }
+      }
+      else if (UTF8IsEqual(key, "privacyPolicy")) {
+        if (lua_type(L, -1) == LUA_TSTRING) {
+          privacyPolicy = [NSString stringWithUTF8String:lua_tostring(L, -1)];
+        }
+        else {
+          logMsg(L, ERROR_MSG, MsgFormat(@"options.privacyPolicy (string) expected, got: %s", luaL_typename(L, -1)));
           return 0;
         }
       }
@@ -436,21 +464,23 @@ ApplovinLibrary::init(lua_State *L)
   settings.isVerboseLogging = verboseLogging;
   settings.muted = startMuted;
 //  settings.isTestAdsEnabled = testMode;
+  if([privacyPolicy length]) {
+	settings.consentFlowSettings.enabled = YES;
+	settings.consentFlowSettings.privacyPolicyURL = [NSURL URLWithString:privacyPolicy];
+  }
   
-  // create two separate instances of the ALSDK (one for Corona one for the user)
-  ALSdk *userSDK = [ALSdk sharedWithKey:@(userSdkKey) settings:settings];
-  
-  // save objects for future use
-  applovinObjects[USER_SDK_KEY] = userSDK;
-  
-  // log the plugin version to device console
-  NSLog(@"%s: %s (SDK: %@)", PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_SDK_VERSION);
-  
-  // send Corona Lua Event
-  NSDictionary *coronaEvent = @{
-    @(CoronaEventPhaseKey()) : PHASE_INIT
-  };
-  [applovinInterstitialDelegate dispatchLuaEvent:coronaEvent];
+  	if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSUserTrackingUsageDescription"]) {
+		if (@available(iOS 14, *)) {
+			[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+				  initApplovin(settings, userSdkKey);
+			}];
+		} else {
+			  initApplovin(settings, userSdkKey);
+		}
+	} else {
+		  initApplovin(settings, userSdkKey);
+	}
+
   
   return 0;
 }

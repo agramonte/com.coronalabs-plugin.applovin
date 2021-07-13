@@ -9,9 +9,6 @@ local metadata =
 
 			usesPermissions =
 			{
-				"android.permission.INTERNET",
-				"android.permission.ACCESS_NETWORK_STATE",
-			--	"android.permission.WRITE_EXTERNAL_STORAGE"
 			},
 
 			usesFeatures =
@@ -20,13 +17,6 @@ local metadata =
 
 			applicationChildElements =
 			{
-				-- Array of strings
-				[[
-				<activity android:name="com.applovin.adview.AppLovinInterstitialActivity"
-						  android:configChanges="orientation|screenSize" />
-
-				<activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
-				]]
 			}
 		}
 	},
