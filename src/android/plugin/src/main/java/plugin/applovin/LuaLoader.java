@@ -5,8 +5,6 @@
 // Copyright (c) 2017 CoronaLabs inc. All rights reserved.
 //
 
-// @formatter: off
-
 package plugin.applovin;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
@@ -1041,7 +1039,7 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
                                 interstitialAd.showAndRender(adStatus.ad);
 
                                 if (fPlacement != null) {
-                                   Log.w("Corona", "Placement argument is ignored");
+                                    Log.w("Corona", "Placement argument is ignored");
                                 }
                             }
                         }
