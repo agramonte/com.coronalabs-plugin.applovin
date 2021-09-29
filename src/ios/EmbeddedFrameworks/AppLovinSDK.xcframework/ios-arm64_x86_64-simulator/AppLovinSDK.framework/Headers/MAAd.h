@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *networkName;
 
 /**
+ * The ad network placement for which this ad was loaded.
+ */
+@property (nonatomic, copy, readonly) NSString *networkPlacement;
+
+/**
  * The creative ID tied to the ad, if any. It may not be available for some ad networks until the SDK calls @code -[MAAdDelegate didDisplayAd:] @endcode.
  *
  * @see <a href="https://dash.applovin.com/documentation/mediation/ios/testing-networks/creative-debugger#creative-id">MAX Integration Guide ⇒ iOS ⇒ Testing Networks ⇒ Creative Debugger ⇒ Creative ID</a>

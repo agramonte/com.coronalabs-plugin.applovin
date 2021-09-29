@@ -116,9 +116,9 @@ build_plugin_structure "$OUTPUT_DIR/BuiltPlugin/iphone-sim" iphonesimulator  " -
 
 (
 	cd "$path"
-	mkdir BuiltPlugin/iphone/resources/
+	mkdir -p BuiltPlugin/iphone/resources/
 	cp -r EmbeddedFrameworks/AppLovinSDKResources.bundle BuiltPlugin/iphone/resources/
-	mkdir BuiltPlugin/iphone-sim/resources/
+	mkdir -p BuiltPlugin/iphone-sim/resources/
 	cp -r EmbeddedFrameworks/AppLovinSDKResources.bundle BuiltPlugin/iphone-sim/resources/
 )
 

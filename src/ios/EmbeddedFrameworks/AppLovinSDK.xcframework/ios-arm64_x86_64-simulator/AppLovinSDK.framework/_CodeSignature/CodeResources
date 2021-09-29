@@ -26,7 +26,7 @@
 		</data>
 		<key>Headers/ALAdSize.h</key>
 		<data>
-		evyUnAw2kPZdniJvbCGESsWM9xU=
+		Wd9hMtary6Rhr/N7jiN3XkRlRZs=
 		</data>
 		<key>Headers/ALAdType.h</key>
 		<data>
@@ -130,7 +130,7 @@
 		</data>
 		<key>Headers/MAAd.h</key>
 		<data>
-		4r/7v9BLfqsG8Di0r9OHI3aCS+Y=
+		+487profbgkRnNd/GxkVsYTDFYY=
 		</data>
 		<key>Headers/MAAdDelegate.h</key>
 		<data>
@@ -190,7 +190,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		bH7QLFirHdaXBbusSPnuymaymrI=
+		OGUJuCW/qy2MFWfwtkg0w/tT3sM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -258,11 +258,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			evyUnAw2kPZdniJvbCGESsWM9xU=
+			Wd9hMtary6Rhr/N7jiN3XkRlRZs=
 			</data>
 			<key>hash2</key>
 			<data>
-			xqWsCrXAmo+4tohGFb5kxxYsi0T7yf/w3iC7MHsAjDI=
+			YeXxSS4u+omYQTPPqj27qe0SnsCrOqtQ/UY1/b88svc=
 			</data>
 		</dict>
 		<key>Headers/ALAdType.h</key>
@@ -544,11 +544,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4r/7v9BLfqsG8Di0r9OHI3aCS+Y=
+			+487profbgkRnNd/GxkVsYTDFYY=
 			</data>
 			<key>hash2</key>
 			<data>
-			+Y4ThWsfocaLQ7wsyFJhUkYDdfhNUMCGtN1+Pr+ZwsI=
+			euWrZgyg8JQssNq7R3p49B3/CXKvqjfRKfkuTYBhSwQ=
 			</data>
 		</dict>
 		<key>Headers/MAAdDelegate.h</key>
