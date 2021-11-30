@@ -162,6 +162,7 @@ class ApplovinLibrary
     static int isLoaded(lua_State *L);
     static int setUserDetails(lua_State *L);
     static int setHasUserConsent(lua_State *L);
+    static int setIsAgeRestrictedUser(lua_State *L);
     
   private: // internal helper functions
     static void logMsg(lua_State *L, NSString *msgType,  NSString *errorMsg);
@@ -273,6 +274,8 @@ ApplovinLibrary::Open(lua_State *L)
       {"hide", hide},
       {"setUserDetails", setUserDetails},
       {"setHasUserConsent", setHasUserConsent},
+      {"setIsAgeRestrictedUser", setIsAgeRestrictedUser},
+        
       {NULL, NULL}
     };
     
@@ -1148,6 +1151,47 @@ ApplovinLibrary::setHasUserConsent(lua_State *L)
     }
 
     [ALPrivacySettings setHasUserConsent:hasUserConsent!=0];
+
+    return 0;
+}
+
+// [Lua] applovin.setIsAgeRestrictedUser( bool )
+int
+ApplovinLibrary::setIsAgeRestrictedUser(lua_State *L)
+{
+    Self *context = ToLibrary(L);
+
+    if (! context) { // abort if no valid context
+        return 0;
+    }
+
+    Self& library = *context;
+
+    library.functionSignature = @"applovin.setIsAgeRestrictedUser( bool )";
+
+    if (! isSDKInitialized(L)) {
+        return 0;
+    }
+
+    // check number of arguments
+    int nargs = lua_gettop(L);
+    if (nargs != 1) {
+        logMsg(L, ERROR_MSG, MsgFormat(@"Expected 1 argument, got %d", nargs));
+        return 0;
+    }
+
+    int isAgeRestrictedUser = NULL;
+
+    // check options
+    if (lua_type(L, 1) == LUA_TBOOLEAN) {
+        isAgeRestrictedUser = lua_toboolean(L, -1);
+    }
+    else {
+        logMsg(L, ERROR_MSG, MsgFormat(@"isAgeRestrictedUser (bool) expected, got %s", luaL_typename(L, 1)));
+        return 0;
+    }
+
+    [ALPrivacySettings setIsAgeRestrictedUser:isAgeRestrictedUser];
 
     return 0;
 }
