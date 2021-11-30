@@ -344,7 +344,8 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
                         new Hide(),
                         new Show(),
                         new SetUserDetails(),
-                        new SetHasUserConsent()
+                        new SetHasUserConsent(),
+                        new SetIsAgeRestrictedUser(),
                 };
         String libName = L.toString(1);
         L.register(libName, luaFunctions);
@@ -1154,6 +1155,43 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
 
             AppLovinPrivacySettings.setHasUserConsent(setHasUserConsent, CoronaEnvironment.getApplicationContext());
 
+            return 0;
+        }
+    }
+
+    // [Lua] applovin.setIsAgeRestrictedUser( bool )
+    private class SetIsAgeRestrictedUser implements NamedJavaFunction {
+        @Override
+        public String getName() {
+            return "setIsAgeRestrictedUser";
+        }
+
+        @Override
+        public int invoke(LuaState L) {
+            functionSignature = "applovin.setIsAgeRestrictedUser( bool )";
+
+            if (!isSDKInitialized()) {
+                return 0;
+            }
+
+            // check number of arguments
+            int nargs = L.getTop();
+            if (nargs != 1) {
+                logMsg(ERROR_MSG, "Expected 1 argument, got " + nargs);
+                return 0;
+            }
+
+            boolean isAgeRestrictedUser;
+
+            // check options
+            if (L.type(1) == LuaType.BOOLEAN) {
+                isAgeRestrictedUser = L.toBoolean(1);
+            } else {
+                logMsg(ERROR_MSG, "setIsAgeRestrictedUser (bool) expected, got " + L.typeName(1));
+                return 0;
+            }
+
+            AppLovinPrivacySettings.setIsAgeRestrictedUser( isAgeRestrictedUser, CoronaEnvironment.getApplicationContext() );
             return 0;
         }
     }
