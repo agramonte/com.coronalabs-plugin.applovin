@@ -3,17 +3,17 @@
 local Library = require "CoronaLibrary"
 
 -- Create library
-local lib = Library:new{ name="plugin.applovin", publisherId="com.coronalabs", version=3 }
+local lib = Library:new{ name="plugin.applovin", publisherId="com.coronalabs", version=4 }
 
 -------------------------------------------------------------------------------
 -- BEGIN
 -------------------------------------------------------------------------------
 
 -- This sample implements the following Lua:
--- 
+--
 --    local applovin = require "plugin.applovin"
 --    applovin.init()
---    
+--
 
 local function showWarning(functionName)
     print( functionName .. " WARNING: The Applovin plugin is only supported on iOS and Android. Please build for device")
@@ -38,6 +38,12 @@ end
 function lib.setUserDetails()
     showWarning("applovin.setUserDetails()")
 end
+
+function lib.setIsAgeRestrictedUser()
+    showWarning("applovin.setIsAgeRestrictedUser()")
+end
+
+
 
 -------------------------------------------------------------------------------
 -- END
