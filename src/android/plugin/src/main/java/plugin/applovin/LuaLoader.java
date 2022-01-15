@@ -346,6 +346,7 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
                         new SetUserDetails(),
                         new SetHasUserConsent(),
                         new SetIsAgeRestrictedUser(),
+                        new showDebugger(),
                 };
         String libName = L.toString(1);
         L.register(libName, luaFunctions);
@@ -1192,6 +1193,26 @@ public class LuaLoader implements JavaFunction, CoronaRuntimeListener {
             }
 
             AppLovinPrivacySettings.setIsAgeRestrictedUser( isAgeRestrictedUser, CoronaEnvironment.getApplicationContext() );
+            return 0;
+        }
+    }
+
+    // [Lua] applovin.showDebugger(  )
+    private class showDebugger implements NamedJavaFunction {
+        @Override
+        public String getName() {
+            return "showDebugger";
+        }
+
+        @Override
+        public int invoke(LuaState L) {
+            functionSignature = "applovin.showDebugger()";
+
+            if (!isSDKInitialized()) {
+                return 0;
+            }
+
+            AppLovinSdk.getInstance( CoronaEnvironment.getApplicationContext() ).showMediationDebugger();
             return 0;
         }
     }

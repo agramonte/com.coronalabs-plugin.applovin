@@ -42,6 +42,9 @@ end
 function lib.setIsAgeRestrictedUser()
     showWarning("applovin.setIsAgeRestrictedUser()")
 end
+function lib.showDebugger()
+    showWarning("applovin.showDebugger()")
+end
 
 
 

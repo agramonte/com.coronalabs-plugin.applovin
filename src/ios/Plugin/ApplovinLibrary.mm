@@ -163,6 +163,8 @@ class ApplovinLibrary
     static int setUserDetails(lua_State *L);
     static int setHasUserConsent(lua_State *L);
     static int setIsAgeRestrictedUser(lua_State *L);
+    static int showDebugger(lua_State *L);
+    
     
   private: // internal helper functions
     static void logMsg(lua_State *L, NSString *msgType,  NSString *errorMsg);
@@ -275,6 +277,8 @@ ApplovinLibrary::Open(lua_State *L)
       {"setUserDetails", setUserDetails},
       {"setHasUserConsent", setHasUserConsent},
       {"setIsAgeRestrictedUser", setIsAgeRestrictedUser},
+      {"showDebugger", showDebugger},
+        
         
       {NULL, NULL}
     };
@@ -1192,6 +1196,30 @@ ApplovinLibrary::setIsAgeRestrictedUser(lua_State *L)
     }
 
     [ALPrivacySettings setIsAgeRestrictedUser:isAgeRestrictedUser];
+
+    return 0;
+}
+
+// [Lua] applovin.showDebugger( bool )
+int
+ApplovinLibrary::showDebugger(lua_State *L)
+{
+    Self *context = ToLibrary(L);
+
+    if (! context) { // abort if no valid context
+        return 0;
+    }
+
+    Self& library = *context;
+
+    library.functionSignature = @"applovin.showDebugger()";
+
+    if (! isSDKInitialized(L)) {
+        return 0;
+    }
+    [[ALSdk shared] showMediationDebugger];
+
+    
 
     return 0;
 }
